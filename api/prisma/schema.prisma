@@ -14,10 +14,21 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String
-  password String
-  createdAt DateTime @default(now())     
-  updatedAt DateTime @updatedAt 
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Board     Board[]
+}
+
+model Board {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  ownerId     Int
+  owner       User     @relation(fields: [ownerId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
