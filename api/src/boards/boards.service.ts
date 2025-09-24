@@ -7,7 +7,7 @@ import { PrismaService } from '@prismaService';
 export class BoardsService {
   constructor(private prisma: PrismaService) {}
 
-  create(createBoardDto: CreateBoardDto) {
+  async create(createBoardDto: CreateBoardDto) {
     return this.prisma.board.create({
       data: {
         title: createBoardDto.title,
@@ -17,24 +17,24 @@ export class BoardsService {
     });
   }
 
-  findAll() {
+  async findAll() {
     return this.prisma.board.findMany();
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     return this.prisma.board.findUnique({
       where: { id },
     });
   }
 
-  update(id: number, updateBoardDto: UpdateBoardDto) {
+  async update(id: number, updateBoardDto: UpdateBoardDto) {
     return this.prisma.user.update({
       where: { id },
       data: updateBoardDto,
     });
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return this.prisma.board.delete({
       where: { id },
     });
