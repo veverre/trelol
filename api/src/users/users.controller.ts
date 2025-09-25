@@ -8,6 +8,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Request,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -17,6 +18,17 @@ import { UpdatePasswordDto } from './dto/update-password.dto';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
+  @Get('profile')
+  getProfile(
+    @Request() req: { user: { id: number; email: string; name: string } },
+  ) {
+    if (!req.user) {
+      throw new Error('User not found in request');
+    }
+
+    return req.user;
+  }
 
   @Get()
   findAll() {

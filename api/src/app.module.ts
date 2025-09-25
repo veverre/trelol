@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { BoardsModule } from './boards/boards.module';
 import { TasksModule } from './tasks/tasks.module';
 import { ConfigModule } from '@nestjs/config';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -17,11 +17,6 @@ import { ConfigModule } from '@nestjs/config';
     }),
   ],
   controllers: [],
-  providers: [
-    {
-      provide: 'APP_GUARD',
-      useClass: JwtAuthGuard,
-    },
-  ],
+  providers: [JwtAuthGuard],
 })
 export class AppModule {}

@@ -1,17 +1,16 @@
 import {
   Body,
   Controller,
-  Get,
   HttpCode,
   HttpStatus,
   Post,
-  Request,
+  Res,
 } from '@nestjs/common';
+import express from 'express';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { SigninUserDto } from './dto/signin-user.dto';
-import type { JwtPayload } from './jwt-payload.interface';
-import { Public } from './public.decorator';
+import { Public } from '../public.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -26,12 +25,25 @@ export class AuthController {
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('signin')
-  async signin(@Body() signinUserDto: SigninUserDto) {
-    return this.authService.signin(signinUserDto);
+  async signin(
+    @Res({ passthrough: true }) res: express.Response,
+    @Body() signinUserDto: SigninUserDto,
+  ) {
+    const token = await this.authService.signin(signinUserDto);
+
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+      maxAge: 1000 * 60 * 60 * 24, // 1 jour
+    });
+
+    return { message: 'Logged in successfully' };
   }
 
-  @Get('profile')
-  getProfile(@Request() req: { user: JwtPayload }): JwtPayload {
-    return req.user;
+  @Post('signout')
+  logout(@Res({ passthrough: true }) res: express.Response) {
+    res.clearCookie('jwt');
+    return { message: 'Logged out' };
   }
 }
