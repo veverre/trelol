@@ -5,6 +5,7 @@ import type { Board } from "shared";
 export const useBoardsStore = defineStore("boards", {
   state: () => ({
     boards: [] as Board[],
+    board: {} as Board,
   }),
   actions: {
     async fetchBoards() {
@@ -37,8 +38,16 @@ export const useBoardsStore = defineStore("boards", {
         this.boards = this.boards.filter((b: Board) => !b._optimistic);
       }
     },
+    async fetchBoard(id: number) {
+      try {
+        this.board = await BoardsService.fetchBoard(id);
+      } catch (err) {
+        console.error("Failed to fetch board", err);
+      }
+    }
   },
   getters: {
     getBoards: (state) => state.boards,
+    getBoard: (state) => state.board,
   },
 });
