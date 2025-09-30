@@ -12,14 +12,17 @@ const handleSignout = async () => {
 
 <template>
     <header class="bg-gray-800 text-white p-4 flex justify-between items-center">
-        <h1 class="text-2xl">Trelol</h1>
+        <NuxtLink to="/">
+            <h1 class="text-2xl">Trelol</h1>
+        </NuxtLink>
         <div>
             <template v-if="isAuthenticated">
                 <Button @click="handleSignout">Se deconnecter</Button>
             </template>
             <template v-else>
-                <NuxtLink to="/auth/signin" class="mr-4"><Button>Se connecter</Button></NuxtLink>
-                <NuxtLink to="/auth/signup"><Button>S'inscrire</Button></NuxtLink>
+                <NuxtLink :to="{ name: 'auth', query: { type: 'signin' } }" class="mr-4"><Button>Se connecter</Button>
+                </NuxtLink>
+                <NuxtLink :to="{ name: 'auth', query: { type: 'signup' } }"><Button>S'inscrire</Button></NuxtLink>
             </template>
         </div>
     </header>

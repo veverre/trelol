@@ -16,10 +16,26 @@ import { Public } from '../public.decorator';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  private setJwtCookie(res: express.Response, token: string) {
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+      maxAge: 1000 * 60 * 60 * 24, // 1 jour
+    });
+  }
+
   @Public()
   @Post('signup')
-  async signup(@Body() createUserDto: CreateUserDto) {
-    return this.authService.signup(createUserDto);
+  async signup(
+    @Res({ passthrough: true }) res: express.Response,
+    @Body() createUserDto: CreateUserDto,
+  ) {
+    const token = await this.authService.signup(createUserDto);
+
+    this.setJwtCookie(res, token);
+
+    return { message: 'Account created successfully' };
   }
 
   @Public()
@@ -31,12 +47,7 @@ export class AuthController {
   ) {
     const token = await this.authService.signin(signinUserDto);
 
-    res.cookie('jwt', token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: 'lax',
-      maxAge: 1000 * 60 * 60 * 24, // 1 jour
-    });
+    this.setJwtCookie(res, token);
 
     return { message: 'Logged in successfully' };
   }

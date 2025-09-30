@@ -16,12 +16,17 @@ export class AuthService {
   async signup(createUserDto: CreateUserDto) {
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 
-    return this.prisma.user.create({
+    const user = await this.prisma.user.create({
       data: {
         email: createUserDto.email,
         name: createUserDto.name,
         password: hashedPassword,
       },
+    });
+
+    const payload = { sub: user.id, email: user.email, name: user.name };
+    return this.jwtService.signAsync(payload, {
+      secret: jwtConstants.secret,
     });
   }
 
@@ -48,7 +53,7 @@ export class AuthService {
       email: user.email,
       name: user.name,
     };
-    return await this.jwtService.signAsync(payload, {
+    return this.jwtService.signAsync(payload, {
       secret: jwtConstants.secret,
     });
   }
