@@ -7,10 +7,12 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Request,
 } from '@nestjs/common';
 import { BoardsService } from './boards.service';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
+import type { AuthRequest } from 'src/auth/auth.interface';
 
 @Controller('boards')
 export class BoardsController {
@@ -22,8 +24,8 @@ export class BoardsController {
   }
 
   @Get()
-  findAll() {
-    return this.boardsService.findAll();
+  findAllByOwner(@Request() req: AuthRequest) {
+    return this.boardsService.findAllByOwner(req.user.id);
   }
 
   @Get(':id')

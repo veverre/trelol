@@ -21,6 +21,12 @@ export class BoardsService {
     return this.prisma.board.findMany();
   }
 
+  async findAllByOwner(userId: number) {
+    return this.prisma.board.findMany({
+      where: { ownerId: userId },
+    });
+  }
+
   async findOne(id: number) {
     return this.prisma.board.findUnique({
       where: { id },

@@ -14,15 +14,14 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
+import type { AuthRequest } from 'src/auth/auth.interface';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get('profile')
-  getProfile(
-    @Request() req: { user: { id: number; email: string; name: string } },
-  ) {
+  getProfile(@Request() req: AuthRequest) {
     if (!req.user) {
       throw new Error('User not found in request');
     }
