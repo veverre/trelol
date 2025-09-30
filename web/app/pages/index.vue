@@ -4,7 +4,7 @@ const usersStore = useUsersStore();
 const isAuthenticated = computed(() => usersStore.isAuthenticated);
 onMounted(() => {
   if (isAuthenticated.value) {
-    window.location.href = '/dashboard';
+    window.location.href = '/boards';
   }
 });
 </script>
