@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
+import type { User } from "shared";
 import { UsersService } from "~/services/api";
 
 export const useUsersStore = defineStore("users", {
   state: () => ({
-    user: null as null | { id: number; email: string; name: string },
+    user: null as null | User,
   }),
   actions: {
     async fetchUser() {

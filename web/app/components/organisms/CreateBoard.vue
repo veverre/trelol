@@ -2,23 +2,21 @@
 import BaseInput from '@/components/atoms/BaseInput.vue';
 import Button from '@/components/atoms/Button.vue';
 
-
-const router = useRouter();
-const email = ref('');
-const password = ref('');
+const emits = defineEmits(['created']);
+const title = ref('');
+const description = ref('');
 
 const handleSubmit = () => {
-    if (!email.value || !password.value) {
+    if (!title.value || !description.value) {
         alert('Veuillez remplir tous les champs.');
         return;
     }
 
-    const authStore = useAuthStore();
+    const boardsStore = useBoardsStore();
     const usersStore = useUsersStore();
-    authStore.signin({ email: email.value, password: password.value })
+    boardsStore.createBoard({ title: title.value, description: description.value, ownerId: usersStore.user.id })
         .then(() => {
-            usersStore.fetchUser();
-            router.push('/boards');
+            emits('created');
         })
         .catch((error) => {
             alert('Erreur de connexion : ' + error.message);
@@ -28,10 +26,10 @@ const handleSubmit = () => {
 </script>
 <template>
     <div>
-        <h2>Me connecter</h2>
+        <h2>Créer un board de taches</h2>
         <form @submit.prevent="handleSubmit" class="space-y-4">
-            <BaseInput v-model="email" type="email" placeholder="E-mail"></BaseInput>
-            <BaseInput v-model="password" type="password" placeholder="Mot de passe"></BaseInput>
+            <BaseInput v-model="title" type="text" placeholder="Titre"></BaseInput>
+            <BaseInput v-model="description" type="textarea" placeholder="Description"></BaseInput>
             <Button type="submit">Valider</Button>
         </form>
     </div>
