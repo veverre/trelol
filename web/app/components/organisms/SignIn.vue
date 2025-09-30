@@ -2,10 +2,9 @@
 import BaseInput from '@/components/atoms/BaseInput.vue';
 import Button from '@/components/atoms/Button.vue';
 
-
-const router = useRouter();
 const email = ref('');
 const password = ref('');
+const emits = defineEmits(['signinSuccess']);
 
 const handleSubmit = () => {
     if (!email.value || !password.value) {
@@ -14,11 +13,9 @@ const handleSubmit = () => {
     }
 
     const authStore = useAuthStore();
-    const usersStore = useUsersStore();
     authStore.signin({ email: email.value, password: password.value })
         .then(() => {
-            usersStore.fetchUser();
-            router.push('/boards');
+            emits('signinSuccess');
         })
         .catch((error) => {
             alert('Erreur de connexion : ' + error.message);

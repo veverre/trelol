@@ -10,6 +10,9 @@ export const AuthService = {
   signin: (data: { email: string; password: string }) => {
     return api.post("/auth/signin", data);
   },
+  signout: () => {
+    return api.post("/auth/signout");
+  },
 };
 
 export const UsersService = {
