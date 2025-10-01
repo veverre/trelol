@@ -28,7 +28,11 @@ export const BoardsService = {
   fetchBoards: () => {
     return api.get("/boards").then((res) => res.data);
   },
-  createBoard: (data: Board) => {
+  createBoard: (data: {
+    title: string;
+    description?: string;
+    ownerId: number;
+  }) => {
     return api.post("/boards", data).then((res) => res.data);
   },
   fetchBoard: (id: number) => {

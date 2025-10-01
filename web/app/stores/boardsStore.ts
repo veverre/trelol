@@ -16,18 +16,29 @@ export const useBoardsStore = defineStore("boards", {
         this.boards = [];
       }
     },
-    async createBoard(data: { title: string; description: string; ownerId: number; }) {
-    type TempBoard = Board & { _optimistic?: boolean };
+    async createBoard(data: {
+      title: string;
+      description: string;
+      ownerId: number;
+    }) {
+      type TempBoard = Board & { _optimistic?: boolean };
       try {
         // Optimistic UI
-        const tempBoard: TempBoard = { ...data, id: Date.now(), _optimistic: true };
+        const tempBoard: TempBoard = {
+          ...data,
+          id: Date.now(),
+          _optimistic: true,
+
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        };
         this.boards.push(tempBoard);
 
         // API call
         const res = await BoardsService.createBoard(data);
 
         // Replace optimistic by real data
-        this.boards = this.boards.filter((b: Board) => !b._optimistic);
+        this.boards = this.boards.filter((b: TempBoard) => !b._optimistic);
         this.boards.push(res);
 
         // (Optionnel) petit refetch pour tout resynchroniser
@@ -35,7 +46,7 @@ export const useBoardsStore = defineStore("boards", {
       } catch (err) {
         console.error("Failed to create board", err);
         // rollback si erreur
-        this.boards = this.boards.filter((b: Board) => !b._optimistic);
+        this.boards = this.boards.filter((b: TempBoard) => !b._optimistic);
       }
     },
     async fetchBoard(id: number) {
@@ -44,7 +55,7 @@ export const useBoardsStore = defineStore("boards", {
       } catch (err) {
         console.error("Failed to fetch board", err);
       }
-    }
+    },
   },
   getters: {
     getBoards: (state) => state.boards,
