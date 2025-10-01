@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { BoardsService } from "~/services/api";
-import type { Board } from "shared";
+import type { Board } from "api";
 
 export const useBoardsStore = defineStore("boards", {
   state: () => ({

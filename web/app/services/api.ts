@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { Board } from "shared";
+import type { Board } from "api";
 
 const api = axios.create({
   baseURL: "http://localhost:4000",

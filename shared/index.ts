@@ -1,1 +1,0 @@
-export type { User, Board, Task } from '../api/node_modules/.prisma/client';
