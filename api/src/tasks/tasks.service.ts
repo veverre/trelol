@@ -20,8 +20,10 @@ export class TasksService {
     return task;
   }
 
-  async findAll() {
-    return this.prisma.task.findMany();
+  async findAllByBoardId(boardId: number) {
+    return this.prisma.task.findMany({
+      where: { boardId },
+    });
   }
 
   async findOne(id: number) {

@@ -1,5 +1,5 @@
+import type { TaskStatus } from "api";
 import axios from "axios";
-import type { Board } from "api";
 
 const api = axios.create({
   baseURL: "http://localhost:4000",
@@ -39,3 +39,17 @@ export const BoardsService = {
     return api.get(`/boards/${id}`).then((res) => res.data);
   },
 };
+
+export const TasksService = {
+  fetchTasks: (boardId: number) => {
+    return api.get(`tasks/board/${boardId}`).then((res) => res.data);
+  },
+  createTask: (data: {
+    title: string;
+    content?: string;
+    status?: TaskStatus;
+    boardId: number;
+  }) => {
+    return api.post("/tasks", data).then((res) => res.data);
+  },
+}

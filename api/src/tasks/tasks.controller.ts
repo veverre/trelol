@@ -20,9 +20,9 @@ export class TasksController {
     return this.tasksService.create(createTaskDto);
   }
 
-  @Get()
-  findAll() {
-    return this.tasksService.findAll();
+  @Get('board/:boardId')
+  findAllByBoardId(@Param('boardId') boardId: number) {
+    return this.tasksService.findAllByBoardId(+boardId);
   }
 
   @Get(':id')
