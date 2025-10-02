@@ -4,8 +4,8 @@ import Button from '@/components/atoms/Button.vue';
 import CreateTask from '@/components/organisms/CreateTask.vue'
 
 const statuses = Object.values(TaskStatus);
-const route = useRoute();
 
+const route = useRoute();
 const boardId = computed(() => route.params.id);
 
 const boardsStore = useBoardsStore();
@@ -15,6 +15,12 @@ const board = computed(() => boardsStore.board);
 const tasksStore = useTasksStore();
 tasksStore.fetchTasks(boardId.value)
 const tasks = computed(() => tasksStore.tasks)
+
+const openCreatorStatus = ref(null);
+
+const toogleTaskCreator = (status) => {
+    openCreatorStatus.value = openCreatorStatus.value === status ? null : status;
+}
 
 </script>
 <template>
@@ -32,8 +38,11 @@ const tasks = computed(() => tasksStore.tasks)
                         </li>
                     </template>
                 </ul>
-                <Button>Ajouter une tâche</Button>
-                <CreateTask @created="tasksStore.fetchTasks(boardId)" :board-id="boardId" :status="status"></CreateTask>
+                <Button v-if="openCreatorStatus !== status" @click="toogleTaskCreator(status)">Ajouter une tâche</Button>
+                <div v-else>
+                    <CreateTask @created="tasksStore.fetchTasks(boardId)" :board-id="boardId" :status="status"></CreateTask>
+                    <Button @click="toogleTaskCreator(status)">Annuler</Button>
+                </div>
             </div>
         </div>
     </div>
