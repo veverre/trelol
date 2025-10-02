@@ -38,7 +38,7 @@ const refetch = () => {
                 <ul>
                     <template v-for="task in tasks" :key="task.id">
                         <li v-if="task.status === status">
-                            <Task @edited="refetch" :task="task"></Task>
+                            <Task @edited="refetch" @deleted="refetch" :task="task"></Task>
                         </li>
                     </template>
                 </ul>

@@ -10,13 +10,14 @@ const emits = defineEmits(['edited'])
 
 const statuses = Object.values(TaskStatus);
 const editMode = ref(false)
+const showDeleteConfirm = ref(false)
 
 const title = ref(props.task.title)
 const content = ref(props.task.content)
 const status = ref(props.task.status)
 
 const handleSubmit = () => {
-     if (!title.value || !content.value || !status.value) {
+    if (!title.value || !content.value || !status.value) {
         alert('Veuillez remplir tous les champs.');
         return;
     }
@@ -26,7 +27,17 @@ const handleSubmit = () => {
             emits('edited');
         })
         .catch((error) => {
-            alert('Erreur de connexion : ' + error.message);
+            alert('Edit error:' + error.message);
+        });
+}
+
+const deleteTask = () => {
+    TasksService.deleteTask(props.task.id)
+        .then(() => {
+            emits('deleted');
+        })
+        .catch((error) => {
+            alert('Delete error : ' + error.message);
         });
 }
 </script>
@@ -41,20 +52,32 @@ const handleSubmit = () => {
             <Button @click="editMode = true">Edit</Button>
         </template>
         <div v-else>
-            <form @submit.prevent="handleSubmit">
+            <form @submit.prevent="handleSubmit" class="flex flex-col gap-2">
                 <BaseInput v-model="title"></BaseInput>
                 <BaseInput v-model="content"></BaseInput>
                 <Select v-model="status" :options="statuses"></Select>
-                <div class="flex justify-between">
-                    <Button variant="danger">Supprimer</Button>
-                    <div>
-                        <Button @click="editMode = true" variant="secondary">Cancel</Button>
+                <div class="flex justify-between mt-4">
+                    <Button @click="showDeleteConfirm = true" variant="danger">Supprimer</Button>
+                    <div class="flex justify-end gap-2">
+                        <Button @click="editMode = false" variant="secondary">Cancel</Button>
                         <Button type="submit">Valider</Button>
                     </div>
                 </div>
             </form>
-
-
+            <div v-if="showDeleteConfirm"
+                class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                <div class="bg-white rounded-lg shadow-lg w-96 max-w-full p-6 animate-fadeIn">
+                    <h4 class="text-xl font-bold mb-4">Voulez vous vraiment supprimer cette task</h4>
+                    <div class="flex flex-col p-4 rounded shadow mb-4">
+                        <h3 class="text-lg">{{ title }}</h3>
+                        <p>{{ content }}</p>
+                    </div>
+                    <div class="flex justify-end gap-2">
+                        <Button @click="showDeleteConfirm = false" variant="secondary">Cancel</Button>
+                        <Button @click="deleteTask">Valider</Button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>

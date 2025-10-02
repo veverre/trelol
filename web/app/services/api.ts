@@ -60,4 +60,7 @@ export const TasksService = {
   }) => {
     return api.patch(`/tasks/${data.id}`, data).then((res) => res.data);
   },
-}
+  deleteTask: (id: number) => {
+    return api.delete(`/tasks/${id}`).then((res) => res.data);
+  },
+};
