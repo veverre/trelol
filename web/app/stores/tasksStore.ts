@@ -22,5 +22,13 @@ export const useTasksStore = defineStore("tasks", {
     }) {
       await TasksService.createTask(data);
     },
+    async editTask(data: {
+      title: string;
+      content: string;
+      status: TaskStatus;
+      id: number;
+    }) {
+      await TasksService.editTask(data);
+    },
   },
 });

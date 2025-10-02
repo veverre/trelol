@@ -52,4 +52,12 @@ export const TasksService = {
   }) => {
     return api.post("/tasks", data).then((res) => res.data);
   },
+  editTask: (data: {
+    title: string;
+    content?: string;
+    status?: TaskStatus;
+    id: number;
+  }) => {
+    return api.patch(`/tasks/${data.id}`, data).then((res) => res.data);
+  },
 }

@@ -1,6 +1,7 @@
 <script setup>
 import { TaskStatus } from 'api';
 import Button from '@/components/atoms/Button.vue';
+import Task from '@/components/organisms/Task.vue'
 import CreateTask from '@/components/organisms/CreateTask.vue'
 
 const statuses = Object.values(TaskStatus);
@@ -22,6 +23,10 @@ const toogleTaskCreator = (status) => {
     openCreatorStatus.value = openCreatorStatus.value === status ? null : status;
 }
 
+const refetch = () => {
+    tasksStore.fetchTasks(boardId.value)
+    openCreatorStatus.value = null
+}
 </script>
 <template>
     <div>
@@ -32,15 +37,14 @@ const toogleTaskCreator = (status) => {
                 <h2 class="text-lg font-bold mb-2">{{ status }}</h2>
                 <ul>
                     <template v-for="task in tasks" :key="task.id">
-                        <li v-if="task.status === status" class="mb-1 p-2 bg-white rounded shadow">
-                            <h4>{{ task.title }}</h4>
-                            <p>{{ task.content }}</p>
+                        <li v-if="task.status === status">
+                            <Task @edited="refetch" :task="task"></Task>
                         </li>
                     </template>
                 </ul>
                 <Button v-if="openCreatorStatus !== status" @click="toogleTaskCreator(status)">Ajouter une tâche</Button>
                 <div v-else>
-                    <CreateTask @created="tasksStore.fetchTasks(boardId)" :board-id="boardId" :status="status"></CreateTask>
+                    <CreateTask @created="refetch" :board-id="boardId" :status="status"></CreateTask>
                     <Button @click="toogleTaskCreator(status)">Annuler</Button>
                 </div>
             </div>
