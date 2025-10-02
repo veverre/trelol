@@ -11,7 +11,7 @@ const onChange = (event) => {
 }
 </script>
 <template>
-    <select class="border rounded px-3 py-2 w-64" :value="modelValue" @change="onChange">
+    <select class="border rounded px-3 py-2" :value="modelValue" @change="onChange">
         <option value="" disabled>Sélectionnez...</option>
         <option v-for="option in options" :key="option" :value="option">
             {{ option }}
