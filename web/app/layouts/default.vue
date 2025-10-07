@@ -2,9 +2,10 @@
 import AppHeader from '@/components/organisms/AppHeader.vue';
 </script>
 <template>
-  <div>
+  <div class="flex flex-col h-screen">
     <AppHeader />
-    <slot />
-    <AppFooter />
+    <main class="flex-1">
+      <slot />
+    </main>
   </div>
 </template>

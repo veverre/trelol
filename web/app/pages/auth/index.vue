@@ -8,14 +8,14 @@ const authType = computed(() => route.query.type);
 
 const usersStore = useUsersStore();
 const handleRedirect = async () => {
-    await usersStore.fetchUser();
-    router.push('/boards');
+  await usersStore.fetchUser();
+  router.push('/boards');
 };
 
 </script>
 <template>
-  <div>
-   <Signin v-if="authType === 'signin'" @signin-success="handleRedirect"></Signin>
-   <Signup v-else  @signup-success="handleRedirect"></Signup>
+  <div class="h-full flex justify-center items-center">
+    <Signin v-if="authType === 'signin'" @signin-success="handleRedirect"></Signin>
+    <Signup v-else @signup-success="handleRedirect"></Signup>
   </div>
 </template>
