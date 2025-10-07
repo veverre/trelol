@@ -4,6 +4,10 @@ import Button from '@/components/atoms/Button.vue';
 import Task from '@/components/organisms/Task.vue'
 import CreateTask from '@/components/organisms/CreateTask.vue'
 
+definePageMeta({
+  middleware: 'auth'
+})
+
 const statuses = Object.values(TaskStatus);
 
 const route = useRoute();
