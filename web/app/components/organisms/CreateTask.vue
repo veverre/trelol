@@ -1,6 +1,8 @@
 <script setup>
 import BaseInput from '@/components/atoms/BaseInput.vue';
 import Button from '@/components/atoms/Button.vue';
+import Card from '@/components/molecules/Card.vue';
+
 import { TaskStatus } from 'api';
 import { TasksService } from '~/services/api';
 
@@ -28,7 +30,7 @@ const handleSubmit = () => {
 
 </script>
 <template>
-    <div class="w-auto justify-between mb-1 p-4 bg-white rounded shadow">
+    <Card>
         <form @submit.prevent="handleSubmit" class="flex flex-col gap-2">
             <BaseInput v-model="title" type="text" placeholder="Titre"></BaseInput>
             <BaseInput v-model="content" type="textarea" placeholder="Contenu"></BaseInput>
@@ -37,5 +39,5 @@ const handleSubmit = () => {
                 <Button type="submit" variant="success">Valider</Button>
             </div>
         </form>
-    </div>
+    </Card>
 </template>

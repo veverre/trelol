@@ -4,6 +4,7 @@ import { TasksService } from '~/services/api';
 import Button from '@/components/atoms/Button.vue';
 import BaseInput from '@/components/atoms/BaseInput.vue';
 import Select from '@/components/atoms/Select.vue';
+import Card from '@/components/molecules/Card.vue';
 
 const props = defineProps({ task: Object, editTaskId: Number })
 const emits = defineEmits(['deleted, edited, update:editTaskId'])
@@ -17,10 +18,10 @@ const status = ref(props.task.status)
 
 const isEditing = computed(() => props.editTaskId === props.task.id)
 const startEdit = () => {
-  emits('update:editTaskId', props.task.id)
+    emits('update:editTaskId', props.task.id)
 }
 const cancelEdit = () => {
-  emits('update:editTaskId', null)
+    emits('update:editTaskId', null)
 }
 
 const handleSubmit = () => {
@@ -52,15 +53,15 @@ const deleteTask = () => {
 </script>
 
 <template>
-    <div class="w-auto mb-1 p-4 bg-white rounded shadow">
-        <div v-if="!isEditing" class="flex justify-between">
-            <div class="flex flex-col">
-                <h3 class="text-lg">{{ title }}</h3>
-                <p>{{ content }}</p>
-            </div>
+    <template v-if="!isEditing" class="flex justify-between">
+        <Card class="flex flex-col">
+            <template #heading>{{ title }}</template>
+            <template #subHeading>{{ content }}</template>
             <Button @click="startEdit">Edit</Button>
-        </div>
-        <template v-else>
+        </Card>
+    </template>
+    <template v-else>
+        <Card>
             <form @submit.prevent="handleSubmit" class="flex flex-col gap-2">
                 <BaseInput v-model="title"></BaseInput>
                 <BaseInput v-model="content"></BaseInput>
@@ -86,6 +87,6 @@ const deleteTask = () => {
                     </div>
                 </div>
             </div>
-        </template>
-    </div>
+        </Card>
+    </template>
 </template>
