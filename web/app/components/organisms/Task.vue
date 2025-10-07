@@ -57,7 +57,9 @@ const deleteTask = () => {
         <Card class="flex flex-col">
             <template #heading>{{ title }}</template>
             <template #subHeading>{{ content }}</template>
-            <Button @click="startEdit">Edit</Button>
+            <template #actions>
+                <Button @click="startEdit">Edit</Button>
+            </template>
         </Card>
     </template>
     <template v-else>
@@ -75,17 +77,19 @@ const deleteTask = () => {
                 </div>
             </form>
             <div v-if="showDeleteConfirm" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                <div class="bg-white rounded-lg shadow-lg w-96 max-w-full p-6 animate-fadeIn">
-                    <h4 class="text-xl font-bold mb-4">Voulez vous vraiment supprimer cette task</h4>
-                    <div class="flex flex-col p-4 rounded shadow mb-4">
-                        <h3 class="text-lg">{{ title }}</h3>
-                        <p>{{ content }}</p>
-                    </div>
-                    <div class="flex justify-end gap-2">
+                <Card class="animate-fadeIn">
+                    <template #heading>Voulez vous vraiment supprimer cette task</template>
+                    <template #subHeading>
+                        <Card class="flex flex-col p-4 rounded shadow mb-4">
+                            <template #heading>{{ title }}</template>
+                            <template #subHeading>{{ content }}</template>
+                        </Card>
+                    </template>
+                    <template #actions>
                         <Button @click="showDeleteConfirm = false" variant="secondary">Cancel</Button>
                         <Button @click="deleteTask">Valider</Button>
-                    </div>
-                </div>
+                    </template>
+                </Card>
             </div>
         </Card>
     </template>
