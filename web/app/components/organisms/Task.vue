@@ -14,7 +14,6 @@ const props = defineProps({
     },
     editTaskId: {
         type: Number,
-        required: true
     }
 })
 const emits = defineEmits(['deleted', 'edited', 'update:editTaskId'])
