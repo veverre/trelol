@@ -9,7 +9,7 @@ RUN npm install -g pnpm@${PNPM_VERSION}
 
 # Dépendances production seulement
 FROM base as deps
-COPY api/package.json ./
+COPY package.json ./
 COPY pnpm-lock.yaml ./
 RUN pnpm install --prod --frozen-lockfile
 
@@ -25,7 +25,7 @@ WORKDIR /usr/src/app
 ENV NODE_ENV production
 USER node
 
-COPY api/package.json ./
+COPY package.json ./
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/dist ./dist
 

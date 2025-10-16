@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 RUN npm install -g pnpm@${PNPM_VERSION}
 
 FROM base as deps
-COPY web/package.json ./
+COPY package.json ./
 COPY pnpm-lock.yaml ./
 RUN pnpm install --prod --frozen-lockfile
 
@@ -22,7 +22,7 @@ WORKDIR /usr/src/app
 ENV NODE_ENV production
 USER node
 
-COPY web/package.json ./
+COPY package.json ./
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/.output ./.output
 
