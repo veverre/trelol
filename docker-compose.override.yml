@@ -1,9 +1,6 @@
-version: "3.9"
-
 services:
   postgres:
     container_name: trelol_postgres
-    image: postgres:15
     restart: always
     environment:
       POSTGRES_USER: postgres
@@ -22,6 +19,7 @@ services:
     volumes:
       - ./web:/web
       - ./api:/api
+      - /api/node_modules
     ports:
       - "4000:4000"
     environment:
@@ -38,6 +36,7 @@ services:
     volumes:
       - ./web:/web
       - ./api:/api
+      - /web/node_modules
     ports:
       - "3000:3000"
     environment:
