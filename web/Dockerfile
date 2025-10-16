@@ -13,7 +13,7 @@ COPY pnpm-lock.yaml ./
 RUN pnpm install --prod --frozen-lockfile
 
 FROM deps as build
-COPY web/. .
+COPY /. .
 RUN pnpm install --frozen-lockfile
 RUN pnpm run build
 

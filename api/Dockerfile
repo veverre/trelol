@@ -15,7 +15,7 @@ RUN pnpm install --prod --frozen-lockfile
 
 # Build de l'app
 FROM deps as build
-COPY api/. .
+COPY /. .
 RUN pnpm install --frozen-lockfile
 RUN pnpm run build
 
