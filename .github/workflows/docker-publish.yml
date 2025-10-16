@@ -15,6 +15,9 @@ jobs:
       - name: Copy lockfile to web
         run: cp pnpm-lock.yaml web/pnpm-lock.yaml
 
+      - name: Copy lockfile to api
+        run: cp pnpm-lock.yaml api/pnpm-lock.yaml
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
