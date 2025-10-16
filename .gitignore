@@ -22,3 +22,9 @@ logs
 .env
 .env.*
 !.env.example
+
+# Generated workspace files for Docker builds
+api/pnpm-workspace.yaml
+web/pnpm-workspace.yaml
+api/pnpm-lock.yaml
+web/pnpm-lock.yaml
