@@ -12,11 +12,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Copy lockfile to web
-        run: cp pnpm-lock.yaml web/pnpm-lock.yaml
+      - name: Prepare web for Docker build
+        run: |
+          cp pnpm-lock.yaml web/pnpm-lock.yaml
+          echo "packages:" > web/pnpm-workspace.yaml
+          echo "  - ." >> web/pnpm-workspace.yaml
 
-      - name: Copy lockfile to api
-        run: cp pnpm-lock.yaml api/pnpm-lock.yaml
+      - name: Prepare api for Docker build
+        run: |
+          cp pnpm-lock.yaml api/pnpm-lock.yaml
+          echo "packages:" > api/pnpm-workspace.yaml
+          echo "  - ." >> api/pnpm-workspace.yaml
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3

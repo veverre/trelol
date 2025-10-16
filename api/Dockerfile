@@ -9,8 +9,7 @@ RUN npm install -g pnpm@${PNPM_VERSION}
 
 # Dépendances production seulement
 FROM base as deps
-COPY package.json ./
-COPY pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --prod --frozen-lockfile
 
 # Build de l'app
