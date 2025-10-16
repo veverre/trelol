@@ -1,5 +1,5 @@
-import type { TaskStatus } from "api";
 import axios from "axios";
+import type { TaskStatus } from "~/types/task-status";
 
 const api = axios.create({
   baseURL: "http://localhost:4000",

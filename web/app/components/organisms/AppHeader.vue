@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import Button from '@/components/atoms/Button.vue';
 
 const usersStore = useUsersStore();

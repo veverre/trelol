@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import CreateBoard from '@/components/organisms/CreateBoard.vue';
 definePageMeta({
   middleware: 'auth'

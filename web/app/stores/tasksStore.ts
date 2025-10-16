@@ -1,5 +1,7 @@
-import type { Task, TaskStatus } from "api";
 import { TasksService } from "~/services/api";
+import type { Task } from "~/types/task";
+import type { TaskStatus } from "~/types/task-status";
+
 
 export const useTasksStore = defineStore("tasks", {
   state: () => ({

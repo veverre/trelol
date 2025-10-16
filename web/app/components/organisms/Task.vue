@@ -1,13 +1,23 @@
-<script setup>
-import { TaskStatus } from 'api';
+<script setup lang="ts">
 import { TasksService } from '~/services/api';
+import { TaskStatus } from '~/types/task-status';
+import type { Task } from '~/types/task';
 import Button from '@/components/atoms/Button.vue';
 import BaseInput from '@/components/atoms/BaseInput.vue';
 import Select from '@/components/atoms/Select.vue';
 import Card from '@/components/molecules/Card.vue';
 
-const props = defineProps({ task: Object, editTaskId: Number })
-const emits = defineEmits(['deleted, edited, update:editTaskId'])
+const props = defineProps({
+    task: {
+        type: Object as () => Task,
+        required: true
+    },
+    editTaskId: {
+        type: Number,
+        required: true
+    }
+})
+const emits = defineEmits(['deleted', 'edited', 'update:editTaskId'])
 
 const statuses = Object.values(TaskStatus);
 const showDeleteConfirm = ref(false)

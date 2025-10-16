@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import Signin from '~/components/organisms/Signin.vue';
 import Signup from '~/components/organisms/Signup.vue';
 const router = useRouter();

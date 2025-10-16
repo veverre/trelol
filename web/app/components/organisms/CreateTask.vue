@@ -1,17 +1,23 @@
-<script setup>
+<script setup lang="ts">
 import BaseInput from '@/components/atoms/BaseInput.vue';
 import Button from '@/components/atoms/Button.vue';
 import Card from '@/components/molecules/Card.vue';
 
-import { TaskStatus } from 'api';
 import { TasksService } from '~/services/api';
+import { TaskStatus } from '~/types/task-status';
 
 const emits = defineEmits(['created', 'cancel']);
 const title = ref('');
 const content = ref('');
 const props = defineProps({
-    boardId: String,
-    status: TaskStatus
+    boardId: {
+        type: Number,
+        required: true
+    },
+    status: {
+        type: String as () => TaskStatus,
+        required: true
+    }
 })
 
 const handleSubmit = () => {

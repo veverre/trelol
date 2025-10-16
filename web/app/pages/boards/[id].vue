@@ -1,8 +1,9 @@
-<script setup>
-import { TaskStatus } from 'api';
+<script setup lang="ts">
 import Button from '@/components/atoms/Button.vue';
 import Task from '@/components/organisms/Task.vue'
 import CreateTask from '@/components/organisms/CreateTask.vue'
+
+import { TaskStatus } from "~/types/task-status";
 
 definePageMeta({
   middleware: 'auth'
@@ -11,7 +12,7 @@ definePageMeta({
 const statuses = Object.values(TaskStatus);
 
 const route = useRoute();
-const boardId = computed(() => route.params.id);
+const boardId = computed(() => Number(route.params.id));
 
 const boardsStore = useBoardsStore();
 boardsStore.fetchBoard(boardId.value);
@@ -20,11 +21,11 @@ const board = computed(() => boardsStore.board);
 const tasksStore = useTasksStore();
 tasksStore.fetchTasks(boardId.value)
 const tasks = computed(() => tasksStore.tasks)
-const editTaskId = ref(null)
+const editTaskId = ref<number | undefined>(undefined)
 
-const openCreatorStatus = ref(null);
+const openCreatorStatus = ref<TaskStatus | null>(null);
 
-const toogleTaskCreator = (status) => {
+const toogleTaskCreator = (status: TaskStatus) => {
     openCreatorStatus.value = openCreatorStatus.value === status ? null : status;
 }
 

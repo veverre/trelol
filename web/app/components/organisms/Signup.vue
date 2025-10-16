@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import BaseInput from '@/components/atoms/BaseInput.vue';
 import Button from '@/components/atoms/Button.vue';
 import Card from '@/components/molecules/Card.vue';
