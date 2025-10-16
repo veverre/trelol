@@ -1,20 +1,13 @@
-# Dockerfile.dev pour Web
 FROM node:22-alpine
 
-# Dossier de travail
 WORKDIR /web
 
-# Installer pnpm globalement
 RUN npm install -g pnpm@10.17.1
 
-# Copier les fichiers de dépendances
-COPY package.json pnpm-lock.yaml* ./
+COPY package.json pnpm-lock.yaml ./
 
-# Installer les dépendances
 RUN pnpm install
 
-# Exposer le port utilisé par Nuxt
 EXPOSE 3000
 
-# Commande de démarrage en mode dev (hot reload)
 CMD ["pnpm", "dev"]
