@@ -1,15 +1,19 @@
+'use client';
 import Button from "@/components/atoms/Button";
-
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Home() {
-  const isAuthenticated = true; // Replace with actual authentication logic
+  const { user } = useAuth();
+  const isAuthenticated = !!user;
   return (
     <div className="flex flex-col items-center justify-center h-full">
       <h1>Bienvenue sur Trelol-React!</h1>
       <p>L&apos;application qui fait comme Trello mais en moins bien !</p>
       <h2 className="text-blue-400 mb-4">Desormais en React.js !!!</h2>
-      {isAuthenticated ?? (
+      {isAuthenticated ? (
         <Button href="/boards">Aller à mes tableaux</Button>
+      ):(
+        <Button href="/auth/signin">Se connecter</Button>
       )}
     </div>
   );
