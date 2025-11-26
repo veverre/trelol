@@ -1,9 +1,5 @@
-enum InputType {
-    TEXT = 'text',
-    PASSWORD = 'password',
-    EMAIL = 'email',
-    NUMBER = 'number',
-}
+'use client';
+import { InputType } from "@/app/enums/Input";
 
 type InputProps = {
   label: string;

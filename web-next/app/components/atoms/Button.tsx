@@ -1,23 +1,6 @@
+'use client';
 import Link from "next/link";
-
-enum ButtonType {
-  BUTTON = 'button',
-  SUBMIT = 'submit',
-  RESET = 'reset',
-}
-
-enum ButtonVariant {
-  PRIMARY = 'primary',
-  SECONDARY = 'secondary',
-  DANGER = 'danger',
-  SUCCESS = 'success',
-}
-
-enum ButtonStyleType {
-  PLAIN = 'plain',
-  OUTLINED = 'outlined',
-  LINK = 'link',
-}
+import { ButtonType, ButtonVariant, ButtonStyleType } from "@/app/enums/Button";
 
 type ButtonProps = {
   children: React.ReactNode;
@@ -31,35 +14,35 @@ type ButtonProps = {
 };
 
 const buttonClassMap = {
-    primary: {
-      plain: 'bg-blue-600 text-white hover:bg-blue-700 border-none',
-      outlined: 'border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white bg-transparent',
-      link: 'text-blue-600 underline hover:text-blue-800 bg-transparent border-none',
-    },
-    secondary: {
-      plain: 'bg-gray-600 text-white hover:bg-gray-700 border-none',
-      outlined: 'border border-gray-600 text-gray-600 hover:bg-gray-600 hover:text-white bg-transparent',
-      link: 'text-gray-600 underline hover:text-gray-800 bg-transparent border-none',
-    },
-    danger: {
-      plain: 'bg-red-600 text-white hover:bg-red-700 border-none',
-      outlined: 'border border-red-600 text-red-600 hover:bg-red-600 hover:text-white bg-transparent',
-      link: 'text-red-600 underline hover:text-red-800 bg-transparent border-none',
-    },
-    success: {
-      plain: 'bg-green-600 text-white hover:bg-green-700 border-none',
-      outlined: 'border border-green-600 text-green-600 hover:bg-green-600 hover:text-white bg-transparent',
-      link: 'text-green-600 underline hover:text-green-800 bg-transparent border-none',
-    },
-  };
+  [ButtonVariant.PRIMARY]: {
+    [ButtonStyleType.PLAIN]: 'bg-blue-600 text-white hover:bg-blue-700 border-none',
+    [ButtonStyleType.OUTLINED]: 'border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white bg-transparent',
+    [ButtonStyleType.LINK]: 'text-blue-600 underline hover:text-blue-800 bg-transparent border-none',
+  },
+  [ButtonVariant.SECONDARY]: {
+    [ButtonStyleType.PLAIN]: 'bg-gray-600 text-white hover:bg-gray-700 border-none',
+    [ButtonStyleType.OUTLINED]: 'border border-gray-600 text-gray-600 hover:bg-gray-600 hover:text-white bg-transparent',
+    [ButtonStyleType.LINK]: 'text-gray-600 underline hover:text-gray-800 bg-transparent border-none',
+  },
+  [ButtonVariant.DANGER]: {
+    [ButtonStyleType.PLAIN]: 'bg-red-600 text-white hover:bg-red-700 border-none',
+    [ButtonStyleType.OUTLINED]: 'border border-red-600 text-red-600 hover:bg-red-600 hover:text-white bg-transparent',
+    [ButtonStyleType.LINK]: 'text-red-600 underline hover:text-red-800 bg-transparent border-none',
+  },
+  [ButtonVariant.SUCCESS]: {
+    [ButtonStyleType.PLAIN]: 'bg-green-600 text-white hover:bg-green-700 border-none',
+    [ButtonStyleType.OUTLINED]: 'border border-green-600 text-green-600 hover:bg-green-600 hover:text-white bg-transparent',
+    [ButtonStyleType.LINK]: 'text-green-600 underline hover:text-green-800 bg-transparent border-none',
+  },
+};
 
   function getButtonClasses(variant: ButtonVariant, styleType: ButtonStyleType, disabled: boolean) {
     if (disabled) {
       return "bg-gray-200 text-gray-400 cursor-not-allowed border-none";
     }
 
-    const v = buttonClassMap[variant] || buttonClassMap.primary
-    return v[styleType] || v.plain
+    const v = buttonClassMap[variant] || buttonClassMap[ButtonVariant.PRIMARY]
+    return v[styleType] || v[ButtonStyleType.PLAIN]
   }
 
 
