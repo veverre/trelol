@@ -1,10 +1,10 @@
 'use client';
-import { InputType } from "@/app/enums/Input";
+import { InputType } from "@/enums/Input";
 
 type InputProps = {
-  label: string;
+  label?: string;
   type?: InputType;
-  value: string;
+  value?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   disabled?: boolean;

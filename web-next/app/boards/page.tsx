@@ -1,5 +1,4 @@
-'use client';
-import Button from "../components/atoms/Button";
+import Button from "@/components/atoms/Button";
 
 export default function BoardsPage() {
   const user = { name: "John Doe" }; // Replace with actual user data

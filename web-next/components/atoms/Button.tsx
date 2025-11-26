@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import { ButtonType, ButtonVariant, ButtonStyleType } from "@/app/enums/Button";
+import { ButtonType, ButtonVariant, ButtonStyleType } from "@/enums/Button";
 
 type ButtonProps = {
   children: React.ReactNode;
