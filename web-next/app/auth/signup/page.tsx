@@ -3,7 +3,7 @@ import Signup from "@/components/organisms/Signup";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from 'next/navigation'
 
-export default function AuthPage() {
+export default function SignupPage() {
     const { signup } = useAuth();
     const router = useRouter();
     const handleSignup = async (data: { email: string; password: string; name: string }) => {
@@ -15,7 +15,7 @@ export default function AuthPage() {
         signup(data).then((() => {
             router.push('/boards');
         })).catch((error) => {
-            alert('Erreur de connexion : ' + error.message);
+            alert('Erreur d\'inscription : ' + error.message);
         });
     };
 

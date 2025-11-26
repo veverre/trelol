@@ -3,7 +3,7 @@ import Signin from "@/components/organisms/Signin";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from 'next/navigation'
 
-export default function AuthPage() {
+export default function SigninPage() {
     const { signin } = useAuth();
     const router = useRouter(); 
     const handleSignin = async (data: { email: string; password: string }) => {
