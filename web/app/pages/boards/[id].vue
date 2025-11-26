@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import draggable from 'vuedraggable'
 import Button from '@/components/atoms/Button.vue';
 import Task from '@/components/organisms/Task.vue'
 import CreateTask from '@/components/organisms/CreateTask.vue'
@@ -6,10 +7,24 @@ import CreateTask from '@/components/organisms/CreateTask.vue'
 import { TaskStatus } from "~/types/task-status";
 
 definePageMeta({
-  middleware: 'auth'
+    middleware: 'auth'
 })
 
 const statuses = Object.values(TaskStatus);
+
+const tasksByStatus = computed(() => {
+    const obj = statuses.reduce((acc, status) => {
+        acc[status] = [];
+        return acc;
+    }, {} as Record<TaskStatus, typeof tasks.value>);
+    tasks.value.forEach(task => {
+        if (obj[task.status]) {
+            obj[task.status].push(task);
+        }
+    });
+    return obj;
+});
+
 
 const route = useRoute();
 const boardId = computed(() => Number(route.params.id));
@@ -39,18 +54,25 @@ const refetch = () => {
         <h1>{{ board.title }}</h1>
         <p>{{ board.description }}</p>
         <div class="grid grid-cols-3 gap-4">
-            <div v-for="status in statuses" :key="status" class="bg-gray-100 p-4 rounded flex flex-col gap-2">
+            <div v-for="(tasks, status) in tasksByStatus" :key="status"
+                class="bg-gray-100 p-4 rounded flex flex-col gap-2">
                 <h2 class="text-lg font-bold mb-2">{{ status }}</h2>
-                <template v-for="task in tasks" :key="task.id">
-                    <Task v-if="task.status === status" v-model:editTaskId="editTaskId" @edited="refetch" @deleted="refetch" :task="task"></Task>
-                </template>
+                <draggable v-model="tasksByStatus[status]" :list="tasks" :item-key="status">
+                    <template #item="{ element }">
+                        <Task v-model:editTaskId="editTaskId" @edited="refetch" @deleted="refetch" :task="element">
+                        </Task>
+                    </template>
+                </draggable>
+
                 <div class="mt-2">
                     <Button v-if="openCreatorStatus !== status" @click="toogleTaskCreator(status)" type-btn="outlined"
                         class="w-full" icon="pi-plus-circle">
                         Nouvelle tâche
                     </Button>
                     <div v-else>
-                        <CreateTask @created="refetch" @cancel="openCreatorStatus = null" :board-id="boardId" :status="status"></CreateTask>
+                        <CreateTask @created="refetch" @cancel="openCreatorStatus = null" :board-id="boardId"
+                            :status="status">
+                        </CreateTask>
                     </div>
                 </div>
             </div>
